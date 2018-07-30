@@ -2,20 +2,15 @@
   <div id="main-app">
     <add-appointment 
       @addRecord="addAppointment" />
-    <search-appointments 
-      :myKey = "filterKey"
-      :myDir = "filterDir"
-      @searchRecords='searchAppointments'
-      @keyChange = "changeKey"
-      @dirChange = "changeDir" />
+    <search-appointments
+      @searchRecords="searchAppointments" />
     <appointment-list
-      :appointments = 'filteredApts'
-      @remove = 'removeItem' />
+    :appointments = 'searchedApts'
+      @remove="removeItem" />
   </div>
 </template>
 
 <script>
-
 import _ from 'lodash';
 import moment from 'moment';
 import AddAppointment from './AddAppointment.vue';
@@ -23,14 +18,12 @@ import SearchAppointments from './SearchAppointments.vue';
 import AppointmentList from './AppointmentList.vue';
 
 export default {
-  name: 'MainApp',
+  name: "MainApp",
   data() {
     return {
       theAppointments: [],
-      searchTerms: '',
-      filterKey: 'petName',
-      filterDir: 'asc'
-    } //return
+      searchTerms: ''
+    }; //return
   }, //data
 
   components: {
@@ -41,9 +34,9 @@ export default {
 
   created: function() {
     $.getJSON('./builds/appointments.json')
-      .done( info =>  {
+      .done( info  => {
         this.theAppointments = info;
-    }); //getJSON
+      }); //getJSON
   }, //created
 
   methods: {
@@ -57,17 +50,8 @@ export default {
     }, //removeItem
 
     searchAppointments: function(terms) {
-      this.searchTerms = terms;
-    }, //searchAppointments
-
-    changeKey: function(value) {
-      this.filterKey = value;
-    }, //changeKey
-
-    changeDir: function(value) {
-      this.filterDir = value;
-    }, //changeKey
-
+      this.searchTerms = terms
+    } //SearchAppointments
   }, //methods
 
   computed: {
@@ -79,14 +63,9 @@ export default {
           (item.aptNotes.toLowerCase().match(this.searchTerms.toLowerCase()))
         )
       }.bind(this));
-    }, //searchedApts
+    }
+  }
 
-    filteredApts: function() {
-      return _.orderBy(this.searchedApts, function(item) {
-        return item[this.filterKey].toLowerCase();
-      }.bind(this), this.filterDir);
-    } //filteredApts
-
-  } //computed
-} //default
+}; //default
 </script>
+

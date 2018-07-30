@@ -1,42 +1,40 @@
 <template>
-  <li class="pet-item media">
+    <li class="pet-item media">
 
-    <div class="media-left">
-      <button class="pet-delete btn btn-xs btn-danger"
-        @click="requestRemoval">
-      <span class="glyphicon glyphicon-remove"></span></button>
-    </div><!-- media-left -->
+        <div class="media-left">
+            <button class="pet-delete btn btn-xs btn-danger"
+            @click="requestRemoval">
+            <span class="glyphicon glyphicon-remove"></span></button>
+        </div><!-- media-left -->
 
-    <div class="pet-info media-body">
+        <div class="pet-info media-body">
 
-      <div class="pet-head">
-        <span class="pet-name"
-          contenteditable="true"
-          ref="petName"
-          @blur="requestUpdate('petName')"
-        >{{appointment.petName}}</span>
-        <span class="apt-date pull-right">{{this.formattedDate}}</span>
-      </div><!-- pet-head -->
+            <div class="pet-head">
+                <span class="pet-name"
+                  contenteditable="true"
+                  ref="petName"
+                  @blur="requestUpdate('petName')"
+                 >{{appointment.petName}}</span>
+                <span class="apt-date pull-right">{{this.formattedDate}}</span>
+            </div><!-- pet-head -->
 
-      <div class="owner-name">
-        <span class="label-item">Owner:</span>
-        <span
-          contenteditable="true"
-          ref="petOwner"
-          @blur="requestUpdate('petOwner')"
-        >{{appointment.petOwner}}</span>
-      </div>
-      <div class="apt-notes"              
-        contenteditable="true"
-        ref="aptNotes"
-        @blur="requestUpdate('aptNotes')"
-      >{{appointment.aptNotes}}</div>
+            <div class="owner-name">
+                <span class="label-item">主人:</span>
+                <span
+                  contenteditable="true"
+                  ref="petOwner"
+                  @blur="requestUpdate('petOwner')"
+                 >{{appointment.petOwner}}</span>
+            </div>
+            <div class="apt-notes"
+                 contenteditable="true"
+                 ref="aptNotes"
+                 @blur="requestUpdate('aptNotes')"
+            >{{appointment.aptNotes}}</div>
 
-    </div><!-- pet-info -->
+        </div><!-- pet-info -->
 
-  </li><!-- pet-item -->
-
-
+    </li><!-- pet-item -->
 </template>
 
 <script>
@@ -44,27 +42,25 @@
 import moment from 'moment';
 
 export default {
-  name: 'PetAppointmentItem',
-  props: ['appointment'],
+  name: "PetAppointmentItem",
+  props: ["appointment"],
   methods: {
 
     requestRemoval: function() {
       this.$parent.$emit('remove', this.appointment);
-    }, //requestremoval
+    }, //requestRemoval
 
     requestUpdate: function(myRef) {
-      this.appointment[myRef] = 
-        this.$refs[myRef].innerText;
-    }
-
-  }, //methods
-
+      this.appointment[myRef] = this.$refs[myRef].innerText;
+    } //requestUpdate
+  },
   computed: {
-    formattedDate: function() {
-      return moment(new Date(this.appointment.aptDate)).format('MM-DD-YY, h:mm a');
-    } //formattedDate
+      formattedDate: function() {
+          return moment(new Date(this.appointment.aptDate))
+          .format('MM-DD-YY, h:mm a');
+      } //formattedDate
   } //computed
-} //default
+}; //export
 </script>
 
 <style scoped>
